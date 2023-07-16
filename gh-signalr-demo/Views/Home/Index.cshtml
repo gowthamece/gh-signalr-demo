@@ -1,0 +1,34 @@
+﻿@model IEnumerable<FarmDetails>
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                   @* <th class="textright">Current bid</th>*@
+                    <th>Temperature</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var auction in Model)
+                {
+                    <tr id="@auction.Id-tr" class="align-middle">
+                        <td>@auction.FarmName</td>
+                     @*   <td id="@auction.Id-bidtext" class="bid">@auction.FarmTemperature</td>*@
+                        <td class="bid-form-td">
+                            <input id="@auction.Id-input" class="bid-input" type="number" value="@(auction.FarmTemperature)" />
+                            <button class="btn btn-primary" type="button" onclick="submitFarmid(@auction.Id)">Submit</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts 
+{
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/homeSite.js" asp-append-version="true"></script>
+}
