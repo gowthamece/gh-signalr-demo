@@ -1,12 +1,20 @@
+using Alachisoft.NCache.AspNetCore.SignalR;
 using gh_signalr_demo.Hubs;
 using gh_signalr_demo.Repositories;
+using ProtoBuf.Extended.Meta;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddSignalR(o => o.EnableDetailedErrors = true);
 builder.Services.AddSingleton<IFarmTempRepo, FarmMemoryRepo>();
+ConfigurationManager configuration = builder.Configuration;
+builder.Services.AddSignalR().AddNCache(ncacheOptions => {
+    ncacheOptions.CacheName = configuration["NCacheConfiguration:CacheName"];
+    ncacheOptions.EventKey = configuration["NCacheConfiguration:ApplicationID"];
+});
 
 var app = builder.Build();
 
